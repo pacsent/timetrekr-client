@@ -1,0 +1,34 @@
+:root {
+  --navBarHeight: 50px;
+
+  --blue: #056297;
+
+  --primaryColor: var(--blue);
+
+  --fontSize: 14px;
+
+  --space100: 6px;
+  --space200: 10px;
+  --space300: 16px;
+  --space400: 20px;
+  --space500: 30px;
+  --space600: 40px;
+}
+
+.App {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

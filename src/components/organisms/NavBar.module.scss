@@ -1,0 +1,11 @@
+.NavBar {
+  height: var(--navBarHeight);
+  width: 100%;
+  background-color: #056297;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
