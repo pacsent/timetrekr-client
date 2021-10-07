@@ -1,6 +1,17 @@
+@mixin mobile-only {
+  @media (max-width: 786px) {
+    @content;
+  }
+}
 .Home {
   padding: var(--space400);
 }
 
 .TimeInputsWrapper {
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space300);
 }

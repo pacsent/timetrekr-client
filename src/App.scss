@@ -1,11 +1,25 @@
+@mixin mobile-only {
+  @media (max-width: 786px) {
+    @content;
+  }
+}
 :root {
+  --mobileMaxVw: 786px;
   --navBarHeight: 50px;
 
-  --blue: #056297;
+  --blue100: #d5f3fe;
+  --blue200: #bed1e7;
+  --blue400: #0782ca;
+  --blue500: #0771af;
+  --grey: #cecece;
+  --white: #ffffff;
 
-  --primaryColor: var(--blue);
+  --primaryColor: var(--blue400);
+  --primaryHoverColor: var(--blue500);
+  --primaryTextColor: var(--white);
 
   --fontSize: 14px;
+  --fontSize700: 24px;
 
   --space100: 6px;
   --space200: 10px;
@@ -13,6 +27,9 @@
   --space400: 20px;
   --space500: 30px;
   --space600: 40px;
+
+  --border: 1px solid var(--grey);
+  --borderRadius: 4px;
 }
 
 .App {
@@ -21,14 +38,23 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-size: var(--fontSize);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@include mobile-only {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }

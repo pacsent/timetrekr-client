@@ -1,33 +1,31 @@
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-
-import styles from "./Home.module.scss";
+import TimeRow from 'components/molecules/TimeRow/TimeRow';
+import Button from 'components/atoms/Button/Button';
+import styles from './Home.module.scss';
+import TimeRowHeader from 'components/molecules/TimeRow/TimeRowHeader';
 
 function Home() {
   return (
     <div className={styles.Home}>
-      <div>
-        <Stack
-          direction="column"
-          spacing={2}
-          className={styles.TimeInputsWrapper}
-        >
-          <Stack direction="row" spacing={2}>
-            <span>Task</span>
-            <span>Start</span>
-            <span>Stop</span>
-          </Stack>
-          <Stack direction="row" spacing={2}>
-            <TextField size="small" defaultValue="Ticket 322" />
-            <TextField size="small" defaultValue="13:00" />
-            <TextField size="small" defaultValue="15:00" />
-          </Stack>
-          <Stack direction="row" spacing={2}>
-            <TextField size="small" placeholder="Task  name" />
-            <TextField size="small" placeholder="00:00" />
-            <TextField size="small" placeholder="00:00" />
-          </Stack>
-        </Stack>
+      <div className={styles.TimeInputsWrapper}>
+        <TimeRowHeader
+          data={{
+            taskNameLabel: 'Task',
+            startTimeLabel: 'Start',
+            endTimeLabel: 'Stop',
+            diffLabel: 'Diff',
+          }}
+        />
+        <TimeRow
+          data={{
+            taskName: 'Ticket 223',
+            startTime: '10:00',
+            endTime: '11:00',
+          }}
+        />
+
+        <Button onClick={() => alert('whaaaa')} size="700">
+          Start
+        </Button>
       </div>
     </div>
   );

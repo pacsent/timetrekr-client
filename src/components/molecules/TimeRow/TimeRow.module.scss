@@ -1,0 +1,20 @@
+@mixin mobile-only {
+  @media (max-width: 786px) {
+    @content;
+  }
+}
+
+.TimeRow {
+  display: grid;
+  gap: var(--space100);
+  align-items: center;
+  grid-template-columns: 250px repeat(3, 60px);
+
+  @include mobile-only {
+    grid-template-columns: 150px repeat(3, 60px);
+  }
+}
+
+.alignCenter {
+  text-align: center;
+}
