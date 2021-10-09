@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon';
 
 export function tsToHour(timestamp: string | undefined): string {
+  console.log({ timestamp });
   if (timestamp === undefined || timestamp.trim() === '') return ':';
   const d = DateTime.fromISO(timestamp).toObject();
   const hours = d.hour;
   const minutes = d.minute;
   const time = `${hours}:${leftpad(minutes, 2, '0')}`;
+  console.log('passed:  ', timestamp, 'd: ', d, 'time: ', time);
   return time;
 }
 

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useEffect } from 'react';
 import styles from './TextField.module.scss';
 
 interface Props {
@@ -23,6 +24,10 @@ function TextField({
     return;
   }
 
+  useEffect(() => {
+    console.log({ defaultValue });
+  }, [defaultValue]);
+
   return (
     <input
       onChange={reformat}
@@ -32,7 +37,7 @@ function TextField({
         styles.main,
         type && styles[type]
       )}
-      defaultValue={defaultValue}
+      value={defaultValue}
       placeholder={placeholder}
       maxLength={format === 'time' ? 5 : maxLength}
     />
