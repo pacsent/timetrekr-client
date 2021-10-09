@@ -1,4 +1,4 @@
-.Button {
+.main {
   font-size: var(--fontSize);
   background-color: var(--primaryColor);
   color: var(--primaryTextColor);
@@ -13,8 +13,18 @@
   &:hover {
     background-color: var(--primaryHoverColor);
   }
-
+}
+.size {
   &__700 {
     font-size: var(--fontSize700);
+  }
+}
+
+// Variants
+
+.red {
+  background-color: var(--red400);
+  &:hover {
+    background-color: var(--red500);
   }
 }

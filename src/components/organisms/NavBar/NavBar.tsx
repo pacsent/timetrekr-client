@@ -1,6 +1,6 @@
-import styles from "./NavBar.module.scss"
+import styles from './NavBar.module.scss';
 
 function NavBar() {
-  return <div className={styles.NavBar}>Time Trekr</div>
+  return <div className={styles.main}>Time Trekr</div>;
 }
-export default NavBar
+export default NavBar;

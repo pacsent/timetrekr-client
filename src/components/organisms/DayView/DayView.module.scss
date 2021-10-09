@@ -1,0 +1,9 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space100);
+}
+.header {
+  color: var(--primaryColor);
+  padding: var(--space400) 0 var(--space100);
+}

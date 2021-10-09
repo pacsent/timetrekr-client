@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import TextField from 'components/atoms/Input/Input';
-import styles from './TimeRow.module.scss';
+import styles from './TimeEntry.module.scss';
 
 interface Props {
   className?: string;
@@ -13,9 +12,9 @@ interface Props {
   isHeader?: boolean;
 }
 
-function TimeRowHeader({ className, data }: Props) {
+function TimeEntryHeader({ className, data }: Props) {
   return (
-    <div className={clsx(className && className, styles.TimeRow)}>
+    <div className={clsx(className && className, styles.main)}>
       <div>{data?.taskNameLabel} </div>
       <div className={styles.alignCenter}>{data?.startTimeLabel} </div>
       <div className={styles.alignCenter}>{data?.endTimeLabel} </div>
@@ -24,4 +23,4 @@ function TimeRowHeader({ className, data }: Props) {
   );
 }
 
-export default TimeRowHeader;
+export default TimeEntryHeader;

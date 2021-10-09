@@ -1,8 +1,9 @@
-import TimeRow from 'components/molecules/TimeRow/TimeRow';
+import TimeEntry from 'components/molecules/TimeEntry/TimeEntry';
 import styles from './MonthView.module.scss';
-import TimeRowHeader from 'components/molecules/TimeRow/TimeRowHeader';
-import { DayViewData, MonthViewData, TimeRowData } from 'types/time';
+import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
+import { DayViewData, MonthViewData, TimeEntryData } from 'types/time';
 import { useEffect, useState } from 'react';
+import DayView from '../DayView/DayView';
 
 interface Props {
   className?: string;
@@ -10,33 +11,23 @@ interface Props {
 }
 
 function MonthView({ className, data }: Props) {
+  useEffect(() => {
+    console.log({ data });
+  }, [data]);
+
   return (
-    <div className={styles.MonthView}>
-      <div className={styles.TimeInputsWrapper}>
-        <TimeRowHeader
-          data={{
-            taskNameLabel: 'Task',
-            startTimeLabel: 'Start',
-            endTimeLabel: 'Stop',
-            diffLabel: 'Diff',
-          }}
-        />
-        {data?.days?.map((day: DayViewData, index) => (
-          <div key={'ef' + index}>
-            {day.rows?.map((row: TimeRowData, i) => (
-              <TimeRow
-                key={'erer' + i}
-                data={{
-                  taskName: row.taskName,
-                  startTime: row.startTime,
-                  endTime: row.endTime,
-                  diff: row.diff,
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className={styles.main}>
+      <TimeEntryHeader
+        data={{
+          taskNameLabel: 'Task',
+          startTimeLabel: 'Start',
+          endTimeLabel: 'Stop',
+          diffLabel: 'Total',
+        }}
+      />
+      {data?.days?.map((day: DayViewData, index) => (
+        <DayView key={'ef' + index} data={day} />
+      ))}
     </div>
   );
 }

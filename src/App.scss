@@ -8,11 +8,14 @@
   --navBarHeight: 50px;
 
   --blue100: #d5f3fe;
-  --blue200: #bed1e7;
+  --blue200: #8dbaee;
+  --blue300: #39a3e0;
   --blue400: #0782ca;
   --blue500: #0771af;
-  --grey: #cecece;
+  --grey: #dfdfdf;
   --white: #ffffff;
+  --red400: #d10202;
+  --red500: #ac0505;
 
   --primaryColor: var(--blue400);
   --primaryHoverColor: var(--blue500);
@@ -21,15 +24,18 @@
   --fontSize: 14px;
   --fontSize700: 24px;
 
-  --space100: 6px;
-  --space200: 10px;
-  --space300: 16px;
-  --space400: 20px;
-  --space500: 30px;
-  --space600: 40px;
+  --space100: 3px;
+  --space200: 6px;
+  --space300: 10px;
+  --space400: 16px;
+  --space500: 20px;
+  --space600: 30px;
+  --space700: 40px;
 
   --border: 1px solid var(--grey);
   --borderRadius: 4px;
+
+  --transition300: 0.2s ease-in-out;
 }
 
 .App {

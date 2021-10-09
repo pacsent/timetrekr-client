@@ -6,17 +6,25 @@ interface Props {
   className?: string;
   children?: ReactNode;
   size?: '200' | '300' | '400' | '500' | '600' | '700';
+  variant?: 'primary' | 'secondary' | 'red';
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-function Button({ className, children, size, onClick: buttonClicked }: Props) {
+function Button({
+  className,
+  children,
+  size,
+  variant,
+  onClick: buttonClicked,
+}: Props) {
   return (
     <button
       onClick={buttonClicked}
       className={clsx(
         className && className,
-        styles.Button,
-        size && styles[`Button__${size}`]
+        styles.main,
+        size && styles[`size__${size}`],
+        variant && styles[variant]
       )}
     >
       {children}

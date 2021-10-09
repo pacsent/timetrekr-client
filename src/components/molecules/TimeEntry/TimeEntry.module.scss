@@ -1,6 +1,6 @@
-.TimeRow {
+.main {
   display: grid;
-  gap: var(--space100);
+  gap: var(--space200);
   align-items: center;
   grid-template-columns: minmax(150px, 250px) repeat(3, 60px);
 }

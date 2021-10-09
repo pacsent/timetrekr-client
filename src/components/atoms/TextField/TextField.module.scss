@@ -1,0 +1,20 @@
+.main {
+  padding: var(--space200);
+  // border: 0;
+  border: var(--border);
+  border-radius: var(--borderRadius);
+  transition: var(--transition300);
+
+  &:hover {
+    border: 1px solid var(--blue300);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0px 1px var(--blue400);
+  }
+}
+
+.time {
+  width: fit-content;
+}

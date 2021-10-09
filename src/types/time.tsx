@@ -1,11 +1,11 @@
-export interface TimeRowData {
+export interface TimeEntryData {
   taskName?: string;
   startTime?: string;
   endTime?: string;
   diff?: string;
 }
 
-export interface TimeRowHeaderData {
+export interface TimeEntryHeaderData {
   taskNameLabel?: string;
   startTimeLabel?: string;
   endTimeLabel?: string;
@@ -14,13 +14,13 @@ export interface TimeRowHeaderData {
 
 export interface DayViewData {
   date: string;
-  total: string;
-  target: string;
-  rows?: TimeRowData[];
+  total?: string;
+  target?: string;
+  entries?: TimeEntryData[];
 }
 
 export interface MonthViewData {
-  year: number;
-  month: number;
+  year?: number;
+  month?: number;
   days?: DayViewData[];
 }
