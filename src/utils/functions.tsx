@@ -15,6 +15,14 @@ export function stringToTime(str: string): string {
   return '';
 }
 
+export function diffHours(startTime: string, endTime: string): string {
+  return '';
+}
+
+export function isValidTimestamp(timestamp: string): boolean {
+  return false;
+}
+
 function leftpad(str: string | number, length: number, char: string = ' ') {
   str = String(str);
 
