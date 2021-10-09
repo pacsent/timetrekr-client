@@ -4,6 +4,7 @@ import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
 import { DayViewData, MonthViewData, TimeEntryData } from 'types/time';
 import { useEffect, useState } from 'react';
 import DayView from '../DayView/DayView';
+import { recalculateMonth } from 'utils/functions';
 
 interface Props {
   className?: string;
@@ -11,7 +12,9 @@ interface Props {
 }
 
 function MonthView({ className, data }: Props) {
+  const [monthData, setMonthData] = useState<MonthViewData | undefined>(data);
   useEffect(() => {
+    setMonthData(recalculateMonth(data));
     console.log({ data });
   }, [data]);
 
@@ -26,7 +29,7 @@ function MonthView({ className, data }: Props) {
         }}
       />
       {data?.days?.map((day: DayViewData, index) => (
-        <DayView key={'ef' + index} data={day} />
+        <DayView key={'day' + index} data={day} />
       ))}
     </div>
   );

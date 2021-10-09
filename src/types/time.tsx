@@ -2,7 +2,7 @@ export interface TimeEntryData {
   taskName?: string;
   startTime?: string;
   endTime?: string;
-  diff?: string;
+  diff?: number;
 }
 
 export interface TimeEntryHeaderData {
@@ -14,7 +14,7 @@ export interface TimeEntryHeaderData {
 
 export interface DayViewData {
   date: string;
-  total?: string;
+  total?: number;
   target?: string;
   entries?: TimeEntryData[];
 }

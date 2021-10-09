@@ -4,6 +4,7 @@ import { DayViewData, MonthViewData } from 'types/time';
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { useAppContext } from 'context';
+import { FaPlay, FaStop } from 'react-icons/fa';
 
 function TimeButton() {
   const { jsonData, setJsonData } = useAppContext();
@@ -33,7 +34,6 @@ function TimeButton() {
       taskName: 'New Task',
       startTime: dt.toString(),
       endTime: '',
-      diff: '00:00',
     };
     const newJson: MonthViewData = JSON.parse(JSON.stringify(jsonData));
     let dayExists = false;
@@ -67,10 +67,10 @@ function TimeButton() {
   return (
     <Button
       onClick={toggleButton}
-      size="700"
+      size="600"
       variant={started ? 'red' : 'primary'}
     >
-      {started ? 'Stop' : 'Start'}
+      {started ? 'Stop' : 'Start'} {started ? <FaStop /> : <FaPlay />}
     </Button>
   );
 }

@@ -6,4 +6,15 @@
 .header {
   color: var(--primaryColor);
   padding: var(--space400) 0 var(--space100);
+  display: grid;
+  gap: var(--space200);
+  grid-template-columns: 1fr 1fr 60px;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
 }

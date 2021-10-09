@@ -3,7 +3,7 @@ import TextField from 'components/atoms/TextField/TextField';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { TimeEntryData } from 'types/time';
-import { tsToHour } from 'utils/functions';
+import { diffToMins, minsToTime, tsToHour } from 'utils/functions';
 import styles from './TimeEntry.module.scss';
 
 interface Props {
@@ -12,13 +12,12 @@ interface Props {
 }
 
 function TimeEntry({ className, data }: Props) {
-  const [diff, setDiff] = useState();
+  const [diff, setDiff] = useState<number | undefined>();
 
   useEffect(() => {
-    const start = DateTime.fromISO(data?.startTime || '');
-    const end = DateTime.fromISO(data?.endTime || '');
-    const dif = end.diff(start, 'minutes');
-    console.log({ timeEntryData: data, start, end, dif });
+    setDiff(
+      diffToMins(data?.startTime, data?.endTime || DateTime.now().toISO())
+    );
   }, [data]);
 
   return (
@@ -34,7 +33,7 @@ function TimeEntry({ className, data }: Props) {
         defaultValue={tsToHour(data?.endTime)}
         format="time"
       />
-      <div className={styles.alignCenter}>{data?.diff}</div>
+      <div className={styles.alignRight}>{minsToTime(diff)}</div>
     </div>
   );
 }

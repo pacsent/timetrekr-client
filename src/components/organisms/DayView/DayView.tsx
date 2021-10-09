@@ -4,6 +4,8 @@ import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
 import { DayViewData, TimeEntryData } from 'types/time';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { DateTime } from 'luxon';
+import { minsToTime } from 'utils/functions';
 
 interface Props {
   className?: string;
@@ -12,9 +14,16 @@ interface Props {
 }
 
 function DayView({ className, data, showHeader }: Props) {
+  const dt = DateTime.fromISO(data?.date || '');
   return (
     <div className={clsx(className && className, styles.main)}>
-      <div className={styles.header}>{data?.date}</div>
+      <div className={styles.header}>
+        <div>
+          {dt.toLocaleString({ ...DateTime.DATE_MED, weekday: 'short' })}
+        </div>
+        <div>{/* Target: {data?.target} */}</div>
+        <div className={styles.alignRight}>{minsToTime(data?.total)}</div>
+      </div>
       {showHeader && (
         <TimeEntryHeader
           data={{
@@ -26,7 +35,7 @@ function DayView({ className, data, showHeader }: Props) {
         />
       )}
       {data?.entries?.map((entry: TimeEntryData, i) => (
-        <TimeEntry key={'erer' + i} data={entry} />
+        <TimeEntry key={'entry' + i} data={entry} />
       ))}
     </div>
   );
