@@ -1,14 +1,13 @@
 import { DateTime } from 'luxon';
-import { MonthViewData, TimeEntryData } from 'types/time';
+import { nanoid } from 'nanoid';
+import { MonthViewData, TimeEntryData, YearMonth } from 'types/time';
 
 export function tsToHour(timestamp: string | undefined): string {
-  console.log({ timestamp });
   if (timestamp === undefined || timestamp.trim() === '') return ':';
   const d = DateTime.fromISO(timestamp).toObject();
   const hours = d.hour;
   const minutes = d.minute;
   const time = `${hours}:${leftpad(minutes, 2, '0')}`;
-  console.log('passed:  ', timestamp, 'd: ', d, 'time: ', time);
   return time;
 }
 
@@ -19,8 +18,12 @@ export function stringToTime(str: string): string {
 export function recalculateMonth(
   data: MonthViewData | undefined
 ): MonthViewData | undefined {
+  const s = DateTime.now();
   if (data === undefined) return undefined;
-  data.days?.forEach((day) => {
+
+  const _data = deepClone(data);
+
+  _data.days?.forEach((day) => {
     day.entries?.forEach((entry) => {
       entry.diff = diffToMins(entry.startTime, entry.endTime);
     });
@@ -33,8 +36,13 @@ export function recalculateMonth(
     const total = day?.entries?.reduce(reducer);
     day.total = total?.diff;
   });
+  console.log({ s, diff: s.diffNow().milliseconds });
+  const same = data === _data;
+  console.log({ s, diff: s.diffNow().milliseconds });
 
-  return {};
+  if (data === _data) return data;
+
+  return _data;
 }
 
 export function diffToMins(
@@ -44,7 +52,6 @@ export function diffToMins(
   const start = DateTime.fromISO(startTime || '');
   const end = DateTime.fromISO(endTime || '');
   const diff = start.isValid && end.isValid && end.diff(start, 'minutes');
-  console.log({ start, end, diff });
   return diff ? diff.minutes : undefined;
 }
 
@@ -53,8 +60,9 @@ export function minsToTime(minutes: number | undefined): string {
   const _minutes = Math.floor(minutes);
   const h = Math.floor(_minutes / 60);
   const m = leftpad(_minutes - h * 60, 2, '0');
-  console.log({ _minutes, h, m });
-  return `${h}:${m}`;
+  const time = `${h}:${m}`;
+
+  return time;
 }
 
 export function diffToTime(
@@ -79,4 +87,70 @@ function leftpad(str: string | number, length: number, char: string = ' ') {
   }
 
   return str;
+}
+
+export function deepClone<T>(array: T): T {
+  return JSON.parse(JSON.stringify(array));
+}
+
+export function timeToTs(time: string, date: string): string {
+  return `${date}T${time}`;
+}
+
+export function formatField(value: string, type: 'time'): string {
+  return value;
+}
+
+export function initMonthData(): MonthViewData {
+  const date = new Date();
+  const monthData: MonthViewData = {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    yearMonth: getYearMonth(),
+    days: [],
+  };
+
+  return monthData;
+}
+
+export function getYearMonth(): string {
+  return DateTime.now().toFormat('yyyy-MM');
+}
+
+export function getDate(): string {
+  return DateTime.now().toFormat('yyyy-MM-dd');
+}
+
+export function getTs(): string {
+  return DateTime.now().toISO();
+}
+
+export function getDateWithDay(timestamp?: string): string | undefined {
+  if (timestamp === undefined) return undefined;
+  return DateTime.fromISO(timestamp).toLocaleString({
+    ...DateTime.DATE_MED,
+    weekday: 'short',
+  });
+}
+
+export function dateToYearMonth(timestamp: string): string {
+  return DateTime.fromISO(timestamp).toFormat('yyyy-MM');
+}
+
+export function formatYM(year?: number, month?: number): string {
+  return DateTime.fromObject({ year, month }).toFormat('yyyy-MM');
+}
+
+export function validateJson(json: string | null | undefined): any {
+  if (json === null || json === undefined) return undefined;
+  try {
+    const parsed = JSON.parse(json);
+    return parsed;
+  } catch (error) {
+    return undefined;
+  }
+}
+
+export function validateYearMonth(yearMonth: string): string | undefined {
+  return undefined;
 }

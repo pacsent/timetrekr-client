@@ -1,4 +1,5 @@
 export interface TimeEntryData {
+  id?: string;
   taskName?: string;
   startTime?: string;
   endTime?: string;
@@ -13,6 +14,7 @@ export interface TimeEntryHeaderData {
 }
 
 export interface DayViewData {
+  id?: string;
   date: string;
   total?: number;
   target?: string;
@@ -20,7 +22,23 @@ export interface DayViewData {
 }
 
 export interface MonthViewData {
+  id?: string;
   year?: number;
   month?: number;
+  yearMonth?: string;
   days?: DayViewData[];
 }
+
+export type YearMonth = `${number}-${
+  | '01'
+  | '02'
+  | '03'
+  | '04'
+  | '05'
+  | '06'
+  | '07'
+  | '08'
+  | '09'
+  | '10'
+  | '11'
+  | '12'}`;

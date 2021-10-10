@@ -1,37 +1,80 @@
 import clsx from 'clsx';
 import TextField from 'components/atoms/TextField/TextField';
-import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
-import { TimeEntryData } from 'types/time';
-import { diffToMins, minsToTime, tsToHour } from 'utils/functions';
+import { useMonthContext } from 'components/organisms/MonthView/monthContext';
+import React, { useEffect, useState } from 'react';
+import { TimeEntryData, DayViewData } from 'types/time';
+import {
+  diffToMins,
+  getTs,
+  minsToTime,
+  recalculateMonth,
+  timeToTs,
+  tsToHour,
+} from 'utils/functions';
 import styles from './TimeEntry.module.scss';
 
 interface Props {
   className?: string;
   data?: TimeEntryData;
+  date?: string;
 }
 
-function TimeEntry({ className, data }: Props) {
+function TimeEntry({ className, data, date }: Props) {
   const [diff, setDiff] = useState<number | undefined>();
+  const { monthData, setMonthData } = useMonthContext();
 
   useEffect(() => {
-    setDiff(
-      diffToMins(data?.startTime, data?.endTime || DateTime.now().toISO())
-    );
+    setDiff(diffToMins(data?.startTime, data?.endTime || getTs()));
   }, [data]);
 
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: 'taskName' | 'startTime' | 'endTime'
+  ) {
+    console.log('timeentry changed: ', {
+      date,
+      data,
+      field,
+      value: e.target.value,
+    });
+    monthData?.days?.forEach((day: DayViewData) => {
+      if (day.date === date) {
+        day.entries?.forEach((entry: TimeEntryData) => {
+          if (entry.id === data?.id) {
+            if (field === 'startTime') {
+              entry[field] = timeToTs(e.target.value, date);
+            } else if (field === 'endTime') {
+              console.log('yo date: ', date);
+              entry[field] = timeToTs(e.target.value, date);
+            } else {
+              entry[field] = e.target.value;
+            }
+          }
+        });
+      }
+    });
+    setMonthData(recalculateMonth(monthData));
+  }
+
   return (
-    <div className={clsx(className && className, styles.main)}>
-      <TextField defaultValue={data?.taskName} />
+    <div className={clsx(className, styles.main)}>
+      <TextField
+        defaultValue={data?.taskName}
+        onBlur={(e) => handleChange(e, 'taskName')}
+      />
       <TextField
         className={styles.alignCenter}
         defaultValue={tsToHour(data?.startTime)}
         format="time"
+        onBlur={(e) => handleChange(e, 'startTime')}
+        align="center"
       />
       <TextField
         className={styles.alignCenter}
         defaultValue={tsToHour(data?.endTime)}
         format="time"
+        onBlur={(e) => handleChange(e, 'endTime')}
+        align="center"
       />
       <div className={styles.alignRight}>{minsToTime(diff)}</div>
     </div>

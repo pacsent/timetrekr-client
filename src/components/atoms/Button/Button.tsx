@@ -21,7 +21,7 @@ function Button({
     <button
       onClick={buttonClicked}
       className={clsx(
-        className && className,
+        className,
         styles.main,
         size && styles[`size__${size}`],
         variant && styles[variant]

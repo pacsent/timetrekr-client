@@ -5,18 +5,12 @@ import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { useAppContext } from 'context';
 import { FaPlay, FaStop } from 'react-icons/fa';
+import { nanoid } from 'nanoid';
+import { getTs } from 'utils/functions';
 
 function TimeButton() {
   const { jsonData, setJsonData } = useAppContext();
   const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    console.log({ jsonData });
-  }, [jsonData]);
-
-  useEffect(() => {
-    console.log({ started });
-  }, [started]);
 
   function toggleButton() {
     if (started) {
@@ -31,8 +25,9 @@ function TimeButton() {
   function startTime() {
     const dt = DateTime.now();
     const newEntry = {
+      id: nanoid(),
       taskName: 'New Task',
-      startTime: dt.toString(),
+      startTime: dt.toISO(),
       endTime: '',
     };
     const newJson: MonthViewData = JSON.parse(JSON.stringify(jsonData));
@@ -45,7 +40,7 @@ function TimeButton() {
     });
     if (!dayExists) {
       const newDay: DayViewData = {
-        date: DateTime.now().toFormat('yyyy-MM-dd'),
+        date: dt.toFormat('yyyy-MM-dd'),
         entries: [newEntry],
       };
       newJson?.days?.push(newDay);
@@ -59,7 +54,7 @@ function TimeButton() {
     const currentEntry = currentDay?.entries?.[currentDay?.entries?.length - 1];
     console.log({ currentEntry });
     if (currentEntry) {
-      currentEntry.endTime = String(DateTime.now().toISO());
+      currentEntry.endTime = getTs();
     }
     setJsonData(newJson);
   }
