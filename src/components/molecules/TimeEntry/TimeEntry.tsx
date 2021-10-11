@@ -4,6 +4,7 @@ import { useMonthContext } from 'components/organisms/MonthView/monthContext';
 import React, { useEffect, useState } from 'react';
 import { TimeEntryData, DayViewData } from 'types/time';
 import {
+  deepClone,
   diffToMins,
   getTs,
   minsToTime,
@@ -27,7 +28,7 @@ function TimeEntry({ className, data, date }: Props) {
     setDiff(diffToMins(data?.startTime, data?.endTime || getTs()));
   }, [data]);
 
-  function handleChange(
+  function handleBlur(
     e: React.ChangeEvent<HTMLInputElement>,
     field: 'taskName' | 'startTime' | 'endTime'
   ) {
@@ -37,7 +38,8 @@ function TimeEntry({ className, data, date }: Props) {
       field,
       value: e.target.value,
     });
-    monthData?.days?.forEach((day: DayViewData) => {
+    const newMonthData = deepClone(monthData);
+    newMonthData?.days?.forEach((day: DayViewData) => {
       if (day.date === date) {
         day.entries?.forEach((entry: TimeEntryData) => {
           if (entry.id === data?.id) {
@@ -53,27 +55,29 @@ function TimeEntry({ className, data, date }: Props) {
         });
       }
     });
-    setMonthData(recalculateMonth(monthData));
+    if (newMonthData !== monthData) {
+      setMonthData(recalculateMonth(newMonthData));
+    }
   }
 
   return (
     <div className={clsx(className, styles.main)}>
       <TextField
         defaultValue={data?.taskName}
-        onBlur={(e) => handleChange(e, 'taskName')}
+        onBlur={(e) => handleBlur(e, 'taskName')}
       />
       <TextField
         className={styles.alignCenter}
         defaultValue={tsToHour(data?.startTime)}
         format="time"
-        onBlur={(e) => handleChange(e, 'startTime')}
+        onBlur={(e) => handleBlur(e, 'startTime')}
         align="center"
       />
       <TextField
         className={styles.alignCenter}
         defaultValue={tsToHour(data?.endTime)}
         format="time"
-        onBlur={(e) => handleChange(e, 'endTime')}
+        onBlur={(e) => handleBlur(e, 'endTime')}
         align="center"
       />
       <div className={styles.alignRight}>{minsToTime(diff)}</div>
