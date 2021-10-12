@@ -3,8 +3,6 @@
   gap: var(--space300);
   align-items: center;
   font-size: var(--fontSize);
-  background-color: var(--primaryColor);
-  color: var(--primaryTextColor);
   padding: 0.5em 1em;
   border-radius: var(--borderRadius);
   border-radius: 200px;
@@ -13,14 +11,14 @@
   text-align: center;
   transition: all 0.2s;
 
-  &:hover {
-    background-color: var(--primaryHoverColor);
-  }
   svg {
     font-size: 0.8em;
   }
 }
 .size {
+  &__500 {
+    font-size: var(--fontSize500);
+  }
   &__600 {
     font-size: var(--fontSize600);
   }
@@ -30,9 +28,25 @@
 }
 
 // Variants
+.primary {
+  background-color: var(--primaryColor);
+  color: var(--primaryTextColor);
+  &:hover {
+    background-color: var(--primaryHoverColor);
+  }
+}
+
+.inverse {
+  background-color: var(--inverseColor);
+  color: var(--inverseTextColor);
+  &:hover {
+    background-color: var(--inverseHoverColor);
+  }
+}
 
 .red {
   background-color: var(--red400);
+  color: var(--primaryTextColor);
   &:hover {
     background-color: var(--red500);
   }

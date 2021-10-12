@@ -7,11 +7,12 @@
   --mobileMaxVw: 786px;
   --navBarHeight: 50px;
 
-  --blue100: #d5f3fe;
-  --blue200: #8dbaee;
+  --blue100: #ebf6ff;
+  --blue200: #9ac9ff;
   --blue300: #39a3e0;
   --blue400: #0782ca;
   --blue500: #0771af;
+  --grey200: #efefef;
   --grey: #dfdfdf;
   --white: #ffffff;
   --red400: #d10202;
@@ -21,7 +22,12 @@
   --primaryHoverColor: var(--blue500);
   --primaryTextColor: var(--white);
 
+  --inverseColor: var(--white);
+  --inverseHoverColor: var(--grey200);
+  --inverseTextColor: var(--primaryColor);
+
   --fontSize: 14px;
+  --fontSize500: 16px;
   --fontSize600: 20px;
   --fontSize700: 24px;
 

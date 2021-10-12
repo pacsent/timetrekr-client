@@ -7,14 +7,10 @@ import { MonthViewData } from 'types/time';
 import { formatYM } from 'utils/functions';
 
 export default function Home() {
-  const { jsonData } = useAppContext();
-
-  useEffect(() => {
-    console.log({ jsonDataHome: jsonData });
-  }, [jsonData]);
+  const { jsonData, setJsonData } = useAppContext();
 
   function handleDataChange(data?: MonthViewData) {
-    console.log('data changed: ', data);
+    setJsonData(data);
     localStorage.setItem(
       formatYM(data?.year, data?.month),
       JSON.stringify(data)
@@ -25,7 +21,6 @@ export default function Home() {
     <div className={styles.main}>
       <div className={styles.TimeInputsWrapper}>
         <MonthView data={jsonData} onDataChange={handleDataChange} />
-        <TimeButton />
       </div>
     </div>
   );

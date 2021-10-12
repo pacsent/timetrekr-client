@@ -10,7 +10,7 @@ import {
   minsToTime,
   recalculateMonth,
   timeToTs,
-  tsToHour,
+  tsToTime,
 } from 'utils/functions';
 import styles from './TimeEntry.module.scss';
 
@@ -24,6 +24,7 @@ function TimeEntry({ className, data, date }: Props) {
   const [diff, setDiff] = useState<number | undefined>();
   const { monthData, setMonthData } = useMonthContext();
 
+  console.log('timeentry');
   useEffect(() => {
     setDiff(diffToMins(data?.startTime, data?.endTime || getTs()));
   }, [data]);
@@ -32,12 +33,6 @@ function TimeEntry({ className, data, date }: Props) {
     e: React.ChangeEvent<HTMLInputElement>,
     field: 'taskName' | 'startTime' | 'endTime'
   ) {
-    console.log('timeentry changed: ', {
-      date,
-      data,
-      field,
-      value: e.target.value,
-    });
     const newMonthData = deepClone(monthData);
     newMonthData?.days?.forEach((day: DayViewData) => {
       if (day.date === date) {
@@ -45,8 +40,7 @@ function TimeEntry({ className, data, date }: Props) {
           if (entry.id === data?.id) {
             if (field === 'startTime') {
               entry[field] = timeToTs(e.target.value, date);
-            } else if (field === 'endTime') {
-              console.log('yo date: ', date);
+            } else if (field === 'endTime' && entry[field] !== ':') {
               entry[field] = timeToTs(e.target.value, date);
             } else {
               entry[field] = e.target.value;
@@ -55,9 +49,8 @@ function TimeEntry({ className, data, date }: Props) {
         });
       }
     });
-    if (newMonthData !== monthData) {
-      setMonthData(recalculateMonth(newMonthData));
-    }
+
+    setMonthData(recalculateMonth(newMonthData));
   }
 
   return (
@@ -68,14 +61,14 @@ function TimeEntry({ className, data, date }: Props) {
       />
       <TextField
         className={styles.alignCenter}
-        defaultValue={tsToHour(data?.startTime)}
+        defaultValue={tsToTime(data?.startTime)}
         format="time"
         onBlur={(e) => handleBlur(e, 'startTime')}
         align="center"
       />
       <TextField
         className={styles.alignCenter}
-        defaultValue={tsToHour(data?.endTime)}
+        defaultValue={tsToTime(data?.endTime)}
         format="time"
         onBlur={(e) => handleBlur(e, 'endTime')}
         align="center"

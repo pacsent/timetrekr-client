@@ -2,11 +2,13 @@ import clsx from 'clsx';
 import { MouseEventHandler, ReactNode } from 'react';
 import styles from './Button.module.scss';
 
+export type ButtonVariant = 'primary' | 'secondary' | 'inverse' | 'red';
+
 interface Props {
   className?: string;
   children?: ReactNode;
   size?: '200' | '300' | '400' | '500' | '600' | '700';
-  variant?: 'primary' | 'secondary' | 'red';
+  variant?: ButtonVariant;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { monthViewData } from 'utils/constants';
 import { MonthViewData } from 'types/time';
 import { getYearMonth, initMonthData, validateJson } from 'utils/functions';
+import Footer from 'components/organisms/Footer/Footer';
 
 function App() {
   let _ymData = validateJson(
@@ -17,8 +18,6 @@ function App() {
     localStorage.setItem(getYearMonth(), JSON.stringify(_ymData));
   }
   const [jsonData, setJsonData] = useState<MonthViewData | undefined>(_ymData);
-
-  console.log({ _ymData });
 
   return (
     <AppContext.Provider
@@ -34,6 +33,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
+        <Footer />
       </Router>
     </AppContext.Provider>
   );

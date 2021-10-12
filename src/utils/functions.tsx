@@ -2,12 +2,12 @@ import { DateTime } from 'luxon';
 import { nanoid } from 'nanoid';
 import { MonthViewData, TimeEntryData, YearMonth } from 'types/time';
 
-export function tsToHour(timestamp: string | undefined): string {
+export function tsToTime(timestamp: string | undefined): string {
   if (timestamp === undefined || timestamp.trim() === '') return ':';
   const d = DateTime.fromISO(timestamp).toObject();
-  const hours = d.hour;
-  const minutes = d.minute;
-  const time = `${hours}:${leftpad(minutes, 2, '0')}`;
+  const hour = d.hour < 10 ? leftpad(d.hour, 2, '0') : d.hour;
+  const minute = leftpad(d.minute, 2, '0');
+  const time = `${hour}:${minute}`;
   return time;
 }
 
@@ -16,9 +16,8 @@ export function stringToTime(str: string): string {
 }
 
 export function recalculateMonth(
-  data: MonthViewData | undefined
+  data?: MonthViewData
 ): MonthViewData | undefined {
-  const s = DateTime.now();
   if (data === undefined) return undefined;
 
   const _data = deepClone(data);
@@ -36,23 +35,16 @@ export function recalculateMonth(
     const total = day?.entries?.reduce(reducer);
     day.total = total?.diff;
   });
-  console.log({ s, diff: s.diffNow().milliseconds });
-  const same = data === _data;
-  console.log({ s, diff: s.diffNow().milliseconds });
-
   if (data === _data) return data;
 
   return _data;
 }
 
-export function diffToMins(
-  startTime: string | undefined,
-  endTime: string | undefined
-): number | undefined {
+export function diffToMins(startTime?: string, endTime?: string): number {
   const start = DateTime.fromISO(startTime || '');
   const end = DateTime.fromISO(endTime || '');
   const diff = start.isValid && end.isValid && end.diff(start, 'minutes');
-  return diff ? diff.minutes : undefined;
+  return diff && diff.minutes > 0 ? diff.minutes : 0;
 }
 
 export function minsToTime(minutes: number | undefined): string {
@@ -89,6 +81,19 @@ function leftpad(str: string | number, length: number, char: string = ' ') {
   return str;
 }
 
+function rightpad(str: string | number, length: number, char: string = ' ') {
+  str = String(str);
+
+  length = length - str.length;
+  let i = -1;
+
+  while (++i < length) {
+    str = str + char;
+  }
+
+  return str;
+}
+
 export function deepClone<T>(array: T): T {
   return JSON.parse(JSON.stringify(array));
 }
@@ -98,7 +103,36 @@ export function timeToTs(time: string, date: string): string {
 }
 
 export function formatField(value: string, type: 'time'): string {
+  if (type === 'time') {
+    let formatted = timify(value).replace(/:+/g, '');
+
+    if (formatted.length < 4) {
+      rightpad(formatted, 4, '0');
+    }
+
+    formatted = formatted.slice(0, 2) + ':' + formatted.slice(2);
+
+    return formatted;
+  }
   return value;
+}
+
+export function timify(time: string): string {
+  let t = time.trim().replace(/[^\d:-]+/g, '');
+
+  if (t.length === 1) {
+    if (t === ':') return '';
+    if (t.match(/[3-9]/)) return leftpad(t, 2, '0') + ':';
+    return t;
+  }
+
+  t = t.replace(/::+/g, ':');
+
+  if ((t.match(/[0-9]/g) || []).length > 4) {
+    t = t.substring(0, 4);
+  }
+
+  return t;
 }
 
 export function initMonthData(): MonthViewData {
@@ -122,7 +156,7 @@ export function getDate(): string {
 }
 
 export function getTs(): string {
-  return DateTime.now().toISO();
+  return DateTime.now().toFormat(`yyyy-MM-dd'T'HH:mm`);
 }
 
 export function getDateWithDay(timestamp?: string): string | undefined {
@@ -149,8 +183,4 @@ export function validateJson(json: string | null | undefined): any {
   } catch (error) {
     return undefined;
   }
-}
-
-export function validateYearMonth(yearMonth: string): string | undefined {
-  return undefined;
 }

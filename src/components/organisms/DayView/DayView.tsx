@@ -13,8 +13,6 @@ interface Props {
 }
 
 function DayView({ className, data, showHeader }: Props) {
-  console.log('dayview: ', data);
-
   return (
     <div className={clsx(className, styles.main)}>
       <div className={styles.header}>

@@ -1,7 +1,6 @@
-import TimeEntry from 'components/molecules/TimeEntry/TimeEntry';
 import styles from './MonthView.module.scss';
 import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
-import { DayViewData, MonthViewData, TimeEntryData } from 'types/time';
+import { DayViewData, MonthViewData } from 'types/time';
 import { useEffect, useState } from 'react';
 import DayView from '../DayView/DayView';
 import { recalculateMonth } from 'utils/functions';
@@ -18,8 +17,7 @@ function MonthView({ className, data, onDataChange: updateData }: Props) {
   const [monthData, setMonthData] = useState<MonthViewData | undefined>(data);
 
   useEffect(() => {
-    console.log('monthview original data: ', data);
-    setMonthData(recalculateMonth(data));
+    setMonthData(data);
   }, [data]);
 
   useEffect(() => {

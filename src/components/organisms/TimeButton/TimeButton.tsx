@@ -1,4 +1,4 @@
-import Button from 'components/atoms/Button/Button';
+import Button, { ButtonVariant } from 'components/atoms/Button/Button';
 import styles from './TimeButton.module.scss';
 import { DayViewData, MonthViewData } from 'types/time';
 import { useEffect, useState } from 'react';
@@ -6,11 +6,19 @@ import { DateTime } from 'luxon';
 import { useAppContext } from 'context';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { nanoid } from 'nanoid';
-import { getTs } from 'utils/functions';
+import { deepClone, getTs } from 'utils/functions';
 
-function TimeButton() {
+interface Props {
+  variant?: ButtonVariant;
+}
+
+function TimeButton({ variant }: Props) {
   const { jsonData, setJsonData } = useAppContext();
   const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [jsonData]);
 
   function toggleButton() {
     if (started) {
@@ -22,18 +30,23 @@ function TimeButton() {
     }
   }
 
+  function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
   function startTime() {
-    const dt = DateTime.now();
     const newEntry = {
       id: nanoid(),
       taskName: 'New Task',
-      startTime: dt.toISO(),
+      startTime: getTs(),
       endTime: '',
     };
-    const newJson: MonthViewData = JSON.parse(JSON.stringify(jsonData));
+    const newJson = deepClone(jsonData);
     let dayExists = false;
+    const dt = DateTime.now();
     newJson?.days?.forEach((day: DayViewData) => {
       if (day?.date === dt.toFormat('yyyy-MM-dd')) {
+        console.log('day matches: ', day.date);
         day?.entries?.push(newEntry);
         dayExists = true;
       }
@@ -49,10 +62,9 @@ function TimeButton() {
   }
 
   function stopTime() {
-    const newJson: MonthViewData = JSON.parse(JSON.stringify(jsonData));
+    const newJson = deepClone(jsonData);
     const currentDay = newJson?.days?.[newJson.days.length - 1];
     const currentEntry = currentDay?.entries?.[currentDay?.entries?.length - 1];
-    console.log({ currentEntry });
     if (currentEntry) {
       currentEntry.endTime = getTs();
     }
@@ -62,8 +74,8 @@ function TimeButton() {
   return (
     <Button
       onClick={toggleButton}
-      size="600"
-      variant={started ? 'red' : 'primary'}
+      size="500"
+      variant={started ? 'red' : variant ?? 'primary'}
     >
       {started ? 'Stop' : 'Start'} {started ? <FaStop /> : <FaPlay />}
     </Button>

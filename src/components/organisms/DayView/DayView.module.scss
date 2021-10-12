@@ -4,11 +4,15 @@
   gap: var(--space100);
 }
 .header {
-  color: var(--primaryColor);
-  padding: var(--space400) 0 var(--space100);
+  position: sticky;
+  top: var(--navBarHeight);
+  background-color: var(--blue100);
+  color: var(--inverseTextColor);
   display: grid;
   gap: var(--space200);
+  padding: var(--space300) var(--space200);
   grid-template-columns: 1fr 1fr 60px;
+  border-radius: var(--borderRadius);
 }
 
 .alignCenter {
