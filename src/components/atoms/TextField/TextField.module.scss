@@ -3,11 +3,12 @@
   input {
     width: 100%;
     padding: var(--space200);
-    // border: 0;
-    border: var(--border);
     border-radius: var(--borderRadius);
     transition: var(--transition300);
     appearance: none;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: var(--fontSize);
 
     &:hover {
       border: 1px solid var(--blue300);

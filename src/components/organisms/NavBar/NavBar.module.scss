@@ -1,12 +1,13 @@
 .main {
   height: var(--navBarHeight);
   width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9;
   background-color: var(--primaryColor);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space400);
   color: white;
-  position: fixed;
-  top: 0;
 }

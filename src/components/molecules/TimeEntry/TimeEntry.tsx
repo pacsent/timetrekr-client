@@ -73,7 +73,9 @@ function TimeEntry({ className, data, date }: Props) {
         onBlur={(e) => handleBlur(e, 'endTime')}
         align="center"
       />
-      <div className={styles.alignRight}>{minsToTime(diff)}</div>
+      <div className={clsx(styles.readOnly, styles.alignRight)}>
+        {minsToTime(diff)}
+      </div>
     </div>
   );
 }

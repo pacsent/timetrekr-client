@@ -5,6 +5,10 @@
   grid-template-columns: minmax(150px, 250px) repeat(2, 60px) 40px;
 }
 
+.readOnly {
+  padding: var(--space200);
+}
+
 .alignCenter {
   text-align: center;
 }

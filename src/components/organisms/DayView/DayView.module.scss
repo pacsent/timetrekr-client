@@ -1,7 +1,10 @@
 .main {
   display: flex;
   flex-direction: column;
-  gap: var(--space100);
+
+  & > *:nth-child(even) {
+    background-color: var(--grey100);
+  }
 }
 .header {
   position: sticky;
