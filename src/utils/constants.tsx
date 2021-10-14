@@ -1,6 +1,6 @@
-import { MonthViewData } from 'types/time';
+import { MonthData } from 'types/time';
 
-export const monthViewData: MonthViewData = {
+export const monthViewData: MonthData = {
   year: 2021,
   month: 9,
   days: [

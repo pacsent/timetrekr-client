@@ -1,9 +1,16 @@
 .main {
   display: flex;
   flex-direction: column;
+  gap: var(--space100);
 
   & > *:nth-child(even) {
     background-color: var(--grey100);
+  }
+
+  & > * {
+    &:hover {
+      background-color: var(--blue100);
+    }
   }
 }
 .header {
@@ -14,7 +21,7 @@
   display: grid;
   gap: var(--space200);
   padding: var(--space300) var(--space200);
-  grid-template-columns: 1fr 1fr 60px;
+  grid-template-columns: 1fr 1fr 60px 30px;
   border-radius: var(--borderRadius);
 }
 

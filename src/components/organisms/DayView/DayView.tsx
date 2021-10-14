@@ -1,14 +1,14 @@
 import TimeEntry from 'components/molecules/TimeEntry/TimeEntry';
 import styles from './DayView.module.scss';
 import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
-import { DayViewData, TimeEntryData } from 'types/time';
+import { DayData, TimeEntryData } from 'types/time';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { getDateWithDay, minsToTime } from 'utils/functions';
 
 interface Props {
   className?: string;
-  data?: DayViewData;
+  data?: DayData;
   showHeader?: boolean;
 }
 
@@ -19,6 +19,7 @@ function DayView({ className, data, showHeader }: Props) {
         <div>{getDateWithDay(data?.date)}</div>
         <div>{/* Target: {data?.target} */}</div>
         <div className={styles.alignRight}>{minsToTime(data?.total)}</div>
+        <div></div>
       </div>
       {showHeader && (
         <TimeEntryHeader

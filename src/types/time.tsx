@@ -13,7 +13,7 @@ export interface TimeEntryHeaderData {
   diffLabel?: string;
 }
 
-export interface DayViewData {
+export interface DayData {
   id?: string;
   date: string;
   total?: number;
@@ -21,12 +21,12 @@ export interface DayViewData {
   entries?: TimeEntryData[];
 }
 
-export interface MonthViewData {
+export interface MonthData {
   id?: string;
   year?: number;
   month?: number;
   yearMonth?: string;
-  days?: DayViewData[];
+  days?: DayData[];
 }
 
 export type YearMonth = `${number}-${
@@ -42,3 +42,5 @@ export type YearMonth = `${number}-${
   | '10'
   | '11'
   | '12'}`;
+
+export type EntryField = 'taskName' | 'startTime' | 'endTime';

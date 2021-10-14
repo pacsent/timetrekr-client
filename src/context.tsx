@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
-import { MonthViewData, YearMonth } from 'types/time';
+import { MonthData, YearMonth } from 'types/time';
 import { getYearMonth } from 'utils/functions';
 
 interface Props {
-  jsonData?: MonthViewData;
-  setJsonData: React.Dispatch<React.SetStateAction<MonthViewData | undefined>>;
+  jsonData?: MonthData;
+  setJsonData: React.Dispatch<React.SetStateAction<MonthData | undefined>>;
 }
 
 const date = new Date();

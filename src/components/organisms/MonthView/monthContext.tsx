@@ -1,9 +1,9 @@
 import React, { createContext, useContext } from 'react';
-import { MonthViewData } from 'types/time';
+import { MonthData } from 'types/time';
 
 interface Props {
-  monthData?: MonthViewData;
-  setMonthData: React.Dispatch<React.SetStateAction<MonthViewData | undefined>>;
+  monthData?: MonthData;
+  setMonthData: React.Dispatch<React.SetStateAction<MonthData | undefined>>;
 }
 const date = new Date();
 export const MonthContext = createContext<Props>({

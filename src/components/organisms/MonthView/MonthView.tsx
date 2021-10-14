@@ -1,6 +1,6 @@
 import styles from './MonthView.module.scss';
 import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
-import { DayViewData, MonthViewData } from 'types/time';
+import { DayData, MonthData } from 'types/time';
 import { useEffect, useState } from 'react';
 import DayView from '../DayView/DayView';
 import { recalculateMonth } from 'utils/functions';
@@ -9,12 +9,12 @@ import { MonthContext } from './monthContext';
 
 interface Props {
   className?: string;
-  data?: MonthViewData;
-  onDataChange: (data?: MonthViewData) => void;
+  data?: MonthData;
+  onDataChange: (data?: MonthData) => void;
 }
 
 function MonthView({ className, data, onDataChange: updateData }: Props) {
-  const [monthData, setMonthData] = useState<MonthViewData | undefined>(data);
+  const [monthData, setMonthData] = useState<MonthData | undefined>(data);
 
   useEffect(() => {
     setMonthData(data);
@@ -35,7 +35,7 @@ function MonthView({ className, data, onDataChange: updateData }: Props) {
             diffLabel: 'Total',
           }}
         />
-        {monthData?.days?.map((day: DayViewData, index) => (
+        {monthData?.days?.map((day: DayData, index) => (
           <DayView key={'day' + index} data={day} />
         ))}
       </div>

@@ -1,6 +1,12 @@
 import { DateTime } from 'luxon';
 import { nanoid } from 'nanoid';
-import { MonthViewData, TimeEntryData, YearMonth } from 'types/time';
+import {
+  DayData,
+  EntryField,
+  MonthData,
+  TimeEntryData,
+  YearMonth,
+} from 'types/time';
 
 export function tsToTime(timestamp: string | undefined): string {
   if (timestamp === undefined || timestamp.trim() === '') return ':';
@@ -15,9 +21,7 @@ export function stringToTime(str: string): string {
   return '';
 }
 
-export function recalculateMonth(
-  data?: MonthViewData
-): MonthViewData | undefined {
+export function recalculateMonth(data?: MonthData): MonthData | undefined {
   if (data === undefined) return undefined;
 
   const _data = deepClone(data);
@@ -118,7 +122,7 @@ export function formatField(value: string, type: 'time'): string {
 }
 
 export function timify(time: string): string {
-  let t = time.trim().replace(/[^\d:-]+/g, '');
+  let t = time.trim().replace(/[^[0-9]:-]+/g, '');
 
   if (t.length === 1) {
     if (t === ':') return '';
@@ -135,9 +139,9 @@ export function timify(time: string): string {
   return t;
 }
 
-export function initMonthData(): MonthViewData {
+export function initMonthData(): MonthData {
   const date = new Date();
-  const monthData: MonthViewData = {
+  const monthData: MonthData = {
     year: date.getFullYear(),
     month: date.getMonth() + 1,
     yearMonth: getYearMonth(),
@@ -183,4 +187,31 @@ export function validateJson(json: string | null | undefined): any {
   } catch (error) {
     return undefined;
   }
+}
+
+export function updateMonthData(
+  value: string,
+  field: EntryField,
+  monthData?: MonthData,
+  data?: TimeEntryData,
+  date?: string
+): MonthData | undefined {
+  const newMonthData = deepClone(monthData);
+  newMonthData?.days?.forEach((day: DayData) => {
+    if (day.date === date) {
+      day.entries?.forEach((entry: TimeEntryData) => {
+        if (entry.id === data?.id) {
+          if (field === 'startTime') {
+            entry[field] = timeToTs(value, date);
+          } else if (field === 'endTime' && entry[field] !== 'now') {
+            entry[field] = timeToTs(value, date);
+          } else {
+            entry[field] = value;
+          }
+        }
+      });
+    }
+  });
+
+  return recalculateMonth(newMonthData);
 }

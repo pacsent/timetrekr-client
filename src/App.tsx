@@ -5,19 +5,17 @@ import Home from 'pages/Home/Home';
 import { AppContext } from 'context';
 import { useEffect, useState } from 'react';
 import { monthViewData } from 'utils/constants';
-import { MonthViewData } from 'types/time';
+import { MonthData } from 'types/time';
 import { getYearMonth, initMonthData, validateJson } from 'utils/functions';
 import Footer from 'components/organisms/Footer/Footer';
 
 function App() {
-  let _ymData = validateJson(
-    localStorage.getItem(getYearMonth())
-  ) as MonthViewData;
+  let _ymData = validateJson(localStorage.getItem(getYearMonth())) as MonthData;
   if (!_ymData) {
     _ymData = initMonthData();
     localStorage.setItem(getYearMonth(), JSON.stringify(_ymData));
   }
-  const [jsonData, setJsonData] = useState<MonthViewData | undefined>(_ymData);
+  const [jsonData, setJsonData] = useState<MonthData | undefined>(_ymData);
 
   return (
     <AppContext.Provider

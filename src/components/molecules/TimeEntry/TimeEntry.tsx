@@ -2,7 +2,8 @@ import clsx from 'clsx';
 import TextField from 'components/atoms/TextField/TextField';
 import { useMonthContext } from 'components/organisms/MonthView/monthContext';
 import React, { useEffect, useState } from 'react';
-import { TimeEntryData, DayViewData } from 'types/time';
+import { FaTrash } from 'react-icons/fa';
+import { TimeEntryData, DayData, EntryField } from 'types/time';
 import {
   deepClone,
   diffToMins,
@@ -11,6 +12,7 @@ import {
   recalculateMonth,
   timeToTs,
   tsToTime,
+  updateMonthData,
 } from 'utils/functions';
 import styles from './TimeEntry.module.scss';
 
@@ -31,26 +33,21 @@ function TimeEntry({ className, data, date }: Props) {
 
   function handleBlur(
     e: React.ChangeEvent<HTMLInputElement>,
-    field: 'taskName' | 'startTime' | 'endTime'
+    field: EntryField
   ) {
-    const newMonthData = deepClone(monthData);
-    newMonthData?.days?.forEach((day: DayViewData) => {
-      if (day.date === date) {
-        day.entries?.forEach((entry: TimeEntryData) => {
-          if (entry.id === data?.id) {
-            if (field === 'startTime') {
-              entry[field] = timeToTs(e.target.value, date);
-            } else if (field === 'endTime' && entry[field] !== ':') {
-              entry[field] = timeToTs(e.target.value, date);
-            } else {
-              entry[field] = e.target.value;
-            }
-          }
-        });
-      }
-    });
+    const newMonthData = updateMonthData(
+      e.target.value,
+      field,
+      monthData,
+      data,
+      date
+    );
 
-    setMonthData(recalculateMonth(newMonthData));
+    setMonthData(newMonthData);
+  }
+
+  function deleteEntry() {
+    console.log('delete data:  ', data);
   }
 
   return (
@@ -73,8 +70,9 @@ function TimeEntry({ className, data, date }: Props) {
         onBlur={(e) => handleBlur(e, 'endTime')}
         align="center"
       />
-      <div className={clsx(styles.readOnly, styles.alignRight)}>
-        {minsToTime(diff)}
+      <div className={styles.diff}>{minsToTime(diff)}</div>
+      <div onClick={deleteEntry} className={styles.deleteButton}>
+        <FaTrash />
       </div>
     </div>
   );

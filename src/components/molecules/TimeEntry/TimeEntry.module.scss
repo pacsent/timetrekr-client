@@ -2,7 +2,7 @@
   display: grid;
   gap: var(--space200);
   align-items: center;
-  grid-template-columns: minmax(150px, 250px) repeat(2, 60px) 40px;
+  grid-template-columns: minmax(150px, 250px) repeat(2, 60px) 50px 30px;
 }
 
 .readOnly {
@@ -15,4 +15,19 @@
 
 .alignRight {
   text-align: right;
+}
+
+.diff {
+  text-align: right;
+  padding: var(--space200);
+  color: var(--primaryColor);
+}
+
+.deleteButton {
+  cursor: pointer;
+  color: var(--grey500);
+
+  &:hover {
+    color: var(--red400);
+  }
 }

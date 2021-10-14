@@ -1,6 +1,6 @@
 import Button, { ButtonVariant } from 'components/atoms/Button/Button';
 import styles from './TimeButton.module.scss';
-import { DayViewData, MonthViewData } from 'types/time';
+import { DayData, MonthData } from 'types/time';
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { useAppContext } from 'context';
@@ -44,7 +44,7 @@ function TimeButton({ variant }: Props) {
     const newJson = deepClone(jsonData);
     let dayExists = false;
     const dt = DateTime.now();
-    newJson?.days?.forEach((day: DayViewData) => {
+    newJson?.days?.forEach((day: DayData) => {
       if (day?.date === dt.toFormat('yyyy-MM-dd')) {
         console.log('day matches: ', day.date);
         day?.entries?.push(newEntry);
@@ -52,7 +52,7 @@ function TimeButton({ variant }: Props) {
       }
     });
     if (!dayExists) {
-      const newDay: DayViewData = {
+      const newDay: DayData = {
         date: dt.toFormat('yyyy-MM-dd'),
         entries: [newEntry],
       };
