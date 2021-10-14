@@ -23,6 +23,7 @@
   padding: var(--space300) var(--space200);
   grid-template-columns: 1fr 1fr 60px 30px;
   border-radius: var(--borderRadius);
+  z-index: 5;
 }
 
 .alignCenter {

@@ -1,12 +1,12 @@
-import Button, { ButtonVariant } from 'components/atoms/Button/Button';
-import styles from './TimeButton.module.scss';
-import { DayData, MonthData } from 'types/time';
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
-import { useAppContext } from 'context';
-import { FaPlay, FaStop } from 'react-icons/fa';
 import { nanoid } from 'nanoid';
+import { FaPlay, FaStop } from 'react-icons/fa';
+import Button, { ButtonVariant } from 'components/atoms/Button/Button';
+import { useAppContext } from 'context';
+import { DayData } from 'types/time';
 import { deepClone, getTs } from 'utils/functions';
+import styles from './TimeButton.module.scss';
 
 interface Props {
   variant?: ButtonVariant;
@@ -18,15 +18,17 @@ function TimeButton({ variant }: Props) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [jsonData]);
+  }, []);
 
   function toggleButton() {
     if (started) {
       stopTime();
       setStarted(false);
+      scrollToBottom();
     } else {
       startTime();
       setStarted(true);
+      scrollToBottom();
     }
   }
 
@@ -46,7 +48,6 @@ function TimeButton({ variant }: Props) {
     const dt = DateTime.now();
     newJson?.days?.forEach((day: DayData) => {
       if (day?.date === dt.toFormat('yyyy-MM-dd')) {
-        console.log('day matches: ', day.date);
         day?.entries?.push(newEntry);
         dayExists = true;
       }

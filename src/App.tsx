@@ -1,13 +1,13 @@
 import './App.scss';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import NavBar from 'components/organisms/NavBar/NavBar';
-import Home from 'pages/Home/Home';
-import { AppContext } from 'context';
 import { useEffect, useState } from 'react';
-import { monthViewData } from 'utils/constants';
-import { MonthData } from 'types/time';
-import { getYearMonth, initMonthData, validateJson } from 'utils/functions';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Footer from 'components/organisms/Footer/Footer';
+import NavBar from 'components/organisms/NavBar/NavBar';
+import { AppContext } from 'context';
+import Home from 'pages/Home/Home';
+import { MonthData } from 'types/time';
+import { monthViewData } from 'utils/constants';
+import { getYearMonth, initMonthData, validateJson } from 'utils/functions';
 
 function App() {
   let _ymData = validateJson(localStorage.getItem(getYearMonth())) as MonthData;

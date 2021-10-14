@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { MouseEventHandler, ReactNode } from 'react';
+import clsx from 'clsx';
 import styles from './Button.module.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'inverse' | 'red';
@@ -26,7 +26,7 @@ function Button({
         className,
         styles.main,
         size && styles[`size__${size}`],
-        variant && styles[variant]
+        variant && styles[variant],
       )}
     >
       {children}

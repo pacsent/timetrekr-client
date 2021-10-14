@@ -1,24 +1,16 @@
 import { DateTime } from 'luxon';
-import { nanoid } from 'nanoid';
-import {
-  DayData,
-  EntryField,
-  MonthData,
-  TimeEntryData,
-  YearMonth,
-} from 'types/time';
+import { DayData, EntryField, MonthData, TimeEntryData } from 'types/time';
 
 export function tsToTime(timestamp: string | undefined): string {
-  if (timestamp === undefined || timestamp.trim() === '') return ':';
+  if (timestamp === undefined || timestamp.trim() === '') return '';
   const d = DateTime.fromISO(timestamp).toObject();
+  if (d.hour === undefined) {
+    return '';
+  }
   const hour = d.hour < 10 ? leftpad(d.hour, 2, '0') : d.hour;
   const minute = leftpad(d.minute, 2, '0');
   const time = `${hour}:${minute}`;
   return time;
-}
-
-export function stringToTime(str: string): string {
-  return '';
 }
 
 export function recalculateMonth(data?: MonthData): MonthData | undefined {
@@ -68,14 +60,10 @@ export function diffToTime(
   return minsToTime(diffToMins(startTime, endTime));
 }
 
-export function isValidTimestamp(timestamp: string): boolean {
-  return false;
-}
-
-function leftpad(str: string | number, length: number, char: string = ' ') {
+function leftpad(str: string | number, length: number, char = ' ') {
   str = String(str);
 
-  length = length - str.length;
+  length -= str.length;
   let i = -1;
 
   while (++i < length) {
@@ -85,14 +73,14 @@ function leftpad(str: string | number, length: number, char: string = ' ') {
   return str;
 }
 
-function rightpad(str: string | number, length: number, char: string = ' ') {
+function rightpad(str: string | number, length: number, char = ' ') {
   str = String(str);
 
-  length = length - str.length;
+  length -= str.length;
   let i = -1;
 
   while (++i < length) {
-    str = str + char;
+    str += char;
   }
 
   return str;
@@ -108,29 +96,69 @@ export function timeToTs(time: string, date: string): string {
 
 export function formatField(value: string, type: 'time'): string {
   if (type === 'time') {
+    if (value === '') {
+      return ':';
+    }
     let formatted = timify(value).replace(/:+/g, '');
-
     if (formatted.length < 4) {
       rightpad(formatted, 4, '0');
     }
 
-    formatted = formatted.slice(0, 2) + ':' + formatted.slice(2);
+    formatted = `${formatted.slice(0, 2)}:${formatted.slice(2)}`;
 
-    return formatted;
+    if (formatted.match(HHmmRegex)) {
+      return formatted;
+    } else {
+      return ':';
+    }
   }
   return value;
 }
 
+export function hourify(time: string): string {
+  let t = time.trim().replace(/[^\d]+/g, '');
+  if (t.length === 1) {
+    if (t.match(/[3-9]/)) return leftpad(t, 2, '0');
+    return t;
+  }
+  if (t.length > 1) {
+    t = t.substr(0, 2);
+    if (Number(t) > 23) {
+      return leftpad(t.substr(0, 1), 2, '0');
+    }
+  }
+  return t;
+}
+
+export function minutify(time: string): string {
+  let t = time.trim().replace(/[^\d]+/g, '');
+  if (t.length === 1) {
+    if (t.match(/[6-9]/)) return leftpad(t, 2, '0');
+    return t;
+  }
+  if (t.length > 1) {
+    t = t.substr(0, 2);
+    if (Number(t) > 59) {
+      return leftpad(t.substr(0, 1), 2, '0');
+    }
+  }
+  return t;
+}
+
 export function timify(time: string): string {
-  let t = time.trim().replace(/[^[0-9]:-]+/g, '');
+  let t = time.trim().replace(/[^\d:]+/g, '');
+  // .replace(/::+/g, ':');
 
   if (t.length === 1) {
     if (t === ':') return '';
-    if (t.match(/[3-9]/)) return leftpad(t, 2, '0') + ':';
+    if (t.match(/[3-9]/)) return `${leftpad(t, 2, '0')}:`;
     return t;
   }
 
-  t = t.replace(/::+/g, ':');
+  if (t.length === 2) {
+    if (t.match(/[3-9]/)) return `${leftpad(t, 2, '0')}:`;
+    return t;
+  }
 
   if ((t.match(/[0-9]/g) || []).length > 4) {
     t = t.substring(0, 4);
@@ -160,7 +188,7 @@ export function getDate(): string {
 }
 
 export function getTs(): string {
-  return DateTime.now().toFormat(`yyyy-MM-dd'T'HH:mm`);
+  return DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm");
 }
 
 export function getDateWithDay(timestamp?: string): string | undefined {
@@ -215,3 +243,7 @@ export function updateMonthData(
 
   return recalculateMonth(newMonthData);
 }
+
+export const HHmmRegex = /(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/;
+
+export const tsRegex = /(20[0-9][0-9])-(0[1-9]|1[1-2])/;

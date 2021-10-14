@@ -15,10 +15,22 @@ interface Props {
 function TimeEntryHeader({ className, data }: Props) {
   return (
     <div className={clsx(className && className, styles.main)}>
-      <div>{data?.taskNameLabel} </div>
-      <div className={styles.alignCenter}>{data?.startTimeLabel} </div>
-      <div className={styles.alignCenter}>{data?.endTimeLabel} </div>
-      <div className={styles.alignCenter}>{data?.diffLabel} </div>
+      <div>
+        {data?.taskNameLabel}
+        {' '}
+      </div>
+      <div className={styles.alignCenter}>
+        {data?.startTimeLabel}
+        {' '}
+      </div>
+      <div className={styles.alignCenter}>
+        {data?.endTimeLabel}
+        {' '}
+      </div>
+      <div className={styles.alignCenter}>
+        {data?.diffLabel}
+        {' '}
+      </div>
     </div>
   );
 }

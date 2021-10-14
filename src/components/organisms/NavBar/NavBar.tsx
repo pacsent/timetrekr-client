@@ -4,7 +4,9 @@ import styles from './NavBar.module.scss';
 function NavBar() {
   return (
     <div className={styles.main}>
-      Time Trekr <TimeButton variant="inverse" />
+      Time Trekr
+      {' '}
+      <TimeButton variant="inverse" />
     </div>
   );
 }

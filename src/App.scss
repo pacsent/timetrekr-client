@@ -60,6 +60,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   line-height: 1.3;
 }
 
@@ -69,6 +70,7 @@ code {
 }
 
 @include mobile-only {
+  body,
   input,
   textarea,
   select {

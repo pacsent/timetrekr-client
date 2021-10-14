@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { formatField, timify } from 'utils/functions';
 import styles from './TextField.module.scss';
 
@@ -10,7 +10,7 @@ interface Props {
   format?: 'time';
   maxLength?: number;
   align?: 'center' | 'right' | 'left';
-  onBlur: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: (value: string) => void;
 }
 
 function TextField({
@@ -46,10 +46,13 @@ function TextField({
       return;
     }
     if (format === 'time') {
-      setValue(formatField(e.target.value, 'time'));
-      e.target.value = formatField(e.target.value, 'time');
+      const val = formatField(e.target.value, 'time');
+      setValue(val);
+      e.target.value = val;
+      handleParentBlur && handleParentBlur(val);
+      return;
     }
-    handleParentBlur(e);
+    handleParentBlur && handleParentBlur(e.target.value);
   }
   return (
     <div className={clsx(className, styles.main)}>

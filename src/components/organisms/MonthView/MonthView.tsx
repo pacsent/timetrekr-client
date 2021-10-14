@@ -1,11 +1,11 @@
-import styles from './MonthView.module.scss';
+import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import TimeEntryHeader from 'components/molecules/TimeEntry/TimeEntryHeader';
 import { DayData, MonthData } from 'types/time';
-import { useEffect, useState } from 'react';
-import DayView from '../DayView/DayView';
 import { recalculateMonth } from 'utils/functions';
-import clsx from 'clsx';
 import { MonthContext } from './monthContext';
+import DayView from '../DayView/DayView';
+import styles from './MonthView.module.scss';
 
 interface Props {
   className?: string;
@@ -36,7 +36,7 @@ function MonthView({ className, data, onDataChange: updateData }: Props) {
           }}
         />
         {monthData?.days?.map((day: DayData, index) => (
-          <DayView key={'day' + index} data={day} />
+          <DayView key={`day${index}`} data={day} />
         ))}
       </div>
     </MonthContext.Provider>
