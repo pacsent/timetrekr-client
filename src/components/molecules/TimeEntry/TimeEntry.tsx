@@ -35,7 +35,7 @@ function TimeEntry({ className, data, date }: Props) {
   }
 
   function deleteEntry() {
-    console.log('delete data:  ', data);
+    alert('Premium Feature!');
   }
 
   return (

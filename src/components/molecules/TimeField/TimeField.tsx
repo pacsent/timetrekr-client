@@ -71,7 +71,6 @@ function TimeField({
     }
 
     const time = `${h}:${m}`;
-    console.log('blurring:  ', time);
 
     handleParentBlur && handleParentBlur(time);
   }
