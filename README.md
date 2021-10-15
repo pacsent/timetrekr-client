@@ -2,6 +2,65 @@
 
 Timetrekr App React Client
 
+# Set up Timetrekr
+
+timetrekr.com
+
+Create github repo
+Clone repo
+Go into directory
+
+npx create-react-app . —template typescript
+
+VS Code plugins:
+Prettier - Code Formatter
+ESLint (Dirk Baeumer)
+Bracket Pair Colorizer
+CSS Modules (clinyong)
+IntelliSense for CSS class names
+Auto Rename Tag
+
+Packages:
+react-router-dom
+@types/react-router-dom
+node-sass
+luxon
+@types/luxon
+react-icons
+nanoid
+
+.env
+FAST_REFRESH=false
+
+Add to
+tsconfig.json
+"baseUrl": "src",
+
+remove eslingconfig from package.json
+
+npm i eslint —save-dev
+
+npx eslint —init
+
+npm i --save-dev eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-cypress
+
+npx eslint src —fix
+
+npm i --save-dev cypress @testing-library/cypress
+
+npx cypress open
+
+Atomic Design
+https://bradfrost.com/blog/post/atomic-web-design/
+https://atomicdesign.bradfrost.com/chapter-2/
+https://bradfrost.com/blog/link/thinking-about-react-atomically/
+https://medium.com/@wheeler.katia/thinking-about-react-atomically-608c865d2262
+https://danilowoz.com/blog/atomic-design-with-react
+
+BEM
+https://medium.com/@jescalan/bem-is-terrible-f421495d093a
+https://hackernoon.com/bem-should-not-exist-6414005765d6
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
