@@ -32,7 +32,7 @@ function TimeField({
     const time = defaultValue?.split(':');
     setHour(time[0]);
     setMinute(time[1]);
-  }, [defaultValue]);
+  }, []);
 
   function handleHour(e: React.ChangeEvent<HTMLInputElement>) {
     const val = hourify(e.target.value);
@@ -59,7 +59,19 @@ function TimeField({
   }
 
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    const time = `${hour}:${minute}`;
+    let h = hour;
+    let m = minute;
+    if (h.length === 1) {
+      h = `0${h}`;
+      setHour(h);
+    }
+    if (m.length === 1) {
+      m = `0${m}`;
+      setMinute(m);
+    }
+
+    const time = `${h}:${m}`;
+    console.log('blurring:  ', time);
 
     handleParentBlur && handleParentBlur(time);
   }
